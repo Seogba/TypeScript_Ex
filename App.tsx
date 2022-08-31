@@ -9,55 +9,6 @@ function App() {
   //symbol:전역적으로 고유한 참조값을 생성. Symbol()함수를 통해 생성
   //never: 존재해서는 안되는 상태
 
-  function greeter(fn: (a:string) => void){
-    fn("hello world!");
-  }
-
-  function printToConsole(s:string){
-    console.log(s);
-  }
-
-  greeter(printToConsole);
-
-  type DescribableFunction = {
-    descripton : string;
-    (someArg : number) : boolean;
-  };
-  function doSomething(fn: DescribableFunction){
-    console.log(fn.descripton + "returned" + fn(6));
-  }
-
-  
-  interface CallOrConstruct{
-    new (s: string):Date;
-    (n ?: number): number;
-  }
-
-  function firstElement<Type>(arr: Type[]): Type | undefined{
-    return arr[0];
-  }
-
-  const s = firstElement(["a" , "b" , "c"]);
-  const n = firstElement([1,2,3]);
-  const u = firstElement([]);
-
-  function longest<Type extends {length : number}>(a: Type, b:Type){
-    if(a.length >= b.length){
-      return a;
-    } else{
-      return b;
-    }
-  }
-
-  const longerArray = longest([1,2],[1,2,3]);
-  console.log(longerArray);
-  const longerString = longest("alice" , "bob");
-  console.log(longerArray);
-  
-  function combine<Type>(arr1: Type[], arr2: Type[]): Type[] {
-    return arr1.concat(arr2);
-  }
-  const arr = combine<string | number>([1, 2, 3], ["hello"]);
 
   function firstElement1<Type>(arr: Type[]){
     return arr[0];
@@ -69,6 +20,53 @@ function App() {
 
   const a = firstElement1([1,2,3]);
   const b = firstElement2([1,2,3]); //1이 2보다 좋은 방법
+
+
+  function filter1<Type>(arr: Type[] , func: (arg: Type) =>boolean){
+    return arr.filter(func);
+  }
+
+  function filter2<Type, Func extends (arg: Type) => boolean>(
+    arr: Type[],
+    func: Func
+  ): Type[] {
+    return arr.filter(func);
+  }
+
+  function greet(s: string){
+    console.log("Hello" + s);
+  }
+
+  function f(x?: number):void{
+    console.log(x);
+  }
+
+  f();
+  f(10);
+  f(undefined);
+
+  function myForEach(arr:any[] , callback: (arg:any , index?:number)=>void){
+    for(let i = 0; i < arr.length; i++){
+      callback(arr[i]);
+    }
+  }
+
+  function len(s:string):number;
+  function len (arr:any[]):number;
+  function len(x:any){
+    return x.length;
+  }
+
+  len("");
+  len([0]);
+
+  const user = {
+    id:123,
+    admin:false,
+    becomeAdmin: function(){
+      this.admin = true;
+    },
+  };
 
 
 
